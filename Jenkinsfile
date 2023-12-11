@@ -1,30 +1,29 @@
-
-node('built-in')
+   
+node('built-in') 
 {
-    stage('ContinuousDownload')
+    stage('ContinuousDownload') 
     {
         git 'https://github.com/Rumana000/maven45.git'
     }
-    stage('ContinuousBuild')
+    stage('ContinuousBuild') 
     {
         sh 'mvn package'
     }
-    stage('ContinuousDeployment')
+    stage('ContinuousDepoyment') 
     {
-       deploy adapters: [tomcat9(credentialsId: '8cc7d40a-bab0-438d-8dc2-f0d886815228', path: '', url: 'http://172.31.16.84:8080')], contextPath: 'testapp', war: '**/*.war'
+        deploy adapters: [tomcat9(credentialsId: '9f112f2c-a0f0-4415-90cd-63d3b665bd17', path: '', url: 'http://172.31.47.3:8080')], contextPath: 'testapp', war: '**/*.war'
     }
-    stage('ContinuousTesting')
+    stage('ContinuousTesting') 
     {
         git 'https://github.com/intelliqittrainings/FunctionalTesting.git'
-        sh 'java -jar /home/ubuntu/.jenkins/workspace/ScriptedPipeline/testing.jar'
+        sh '''java -jar /var/lib/jenkins/workspace/ScriptedPipeline/testing.jar
+'''
     }
-    stage('ContinuousDelivery')
+    stage('ContinuousDelivery') 
     {
-        input message: 'Need approvals from the DM!', submitter: 'srinivas'
-        deploy adapters: [tomcat9(credentialsId: '8cc7d40a-bab0-438d-8dc2-f0d886815228', path: '', url: 'http://172.31.29.58:8080')], contextPath: 'prodapp', war: '**/*.war'
+        deploy adapters: [tomcat9(credentialsId: '9f112f2c-a0f0-4415-90cd-63d3b665bd17', path: '', url: 'http://172.31.42.203:8080')], contextPath: 'prodapp', war: '**/*.war'
     }
 }    
-    
     
     
     
